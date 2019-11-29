@@ -17,6 +17,7 @@ export type DeletePlayerRequest = {
 // Game Types
 export type CreateGameRequest = {
   name: string;
+  uuid?: string;
 }
 
 export type GetGameRequest = {

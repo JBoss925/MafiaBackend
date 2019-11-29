@@ -1,8 +1,6 @@
 import * as playerHandler from '../../playerHandler';
 import { firestore } from 'firebase';
 import { expect } from '../testExtensions';
-import * as runTests from '../runTests';
-import { materialize } from '../../util/commonOps';
 var MockExpressRequest = require('mock-express-request');
 var MockExpressResponse = require('mock-express-response');
 
@@ -46,7 +44,7 @@ export async function runCreatePlayerTest(db: firestore.Firestore) {
   let responseJSON = mockRespsonse._getJSON();
   let docExists;
   let docData: any;
-  await db.collection('players').doc(responseJSON.uuid).get().then(doc => {
+  await db.collection('players').doc(mockRequest.body.uuid).get().then(doc => {
     docExists = doc.exists;
     docData = doc.data();
   });
@@ -71,7 +69,7 @@ export async function runGetPlayerTest(db: firestore.Firestore) {
   let responseJSON = mockRespsonse._getJSON();
   let docExists;
   let docData: any;
-  await db.collection('players').doc(responseJSON.uuid).get().then(doc => {
+  await db.collection('players').doc(mockRequest.body.uuid).get().then(doc => {
     docExists = doc.exists;
     docData = doc.data();
   });

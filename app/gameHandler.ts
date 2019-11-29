@@ -6,15 +6,26 @@ import * as commonOps from "./util/commonOps";
 import { v4 as uuid } from 'uuid';
 import { CreatePlayerRequest, GetPlayerRequest, DeletePlayerRequest, GetGameRequest, DeleteGameRequest, AddPlayerToGameRequest, DeletePlayerFromGameRequest } from "./requestTypes";
 import { Player, Game } from "./types";
+import { isUndefined } from "util";
 
 export async function createGame(db: firestore.Firestore, req: Request, res: Response) {
   let request = req.body as CreatePlayerRequest;
-  let game: Game = {
-    uuid: uuid().slice(0, 6),
-    started: false,
-    round: 0,
-    currentPlayers: []
-  };
+  let game: Game;
+  if (isUndefined(request.uuid)) {
+    game = {
+      uuid: uuid().slice(0, 6),
+      started: false,
+      round: 0,
+      currentPlayers: []
+    };
+  } else {
+    game = {
+      uuid: request.uuid,
+      started: false,
+      round: 0,
+      currentPlayers: []
+    };
+  }
   return db.collection('games').doc(game.uuid).set(game).then(() => {
     res.json(game);
   });
@@ -47,13 +58,13 @@ export async function addPlayerToGame(db: firestore.Firestore, req: Request, res
     } else {
       let gameObj = doc.data() as Game;
       let playerDataRef = db.collection('players').doc(request.playerUUID);
-      await db.collection('players').doc(request.playerUUID).get().then((doc2) => {
+      await db.collection('players').doc(request.playerUUID).get().then(async (doc2) => {
         if (!doc2.exists) {
           res.json({ error: "no player by that uuid!" });
         } else {
           let playerObj = doc2.data() as Player;
           gameObj.currentPlayers.push(playerDataRef);
-          gameDataRef.set(gameObj).then(() => {
+          await gameDataRef.set(gameObj).then(() => {
             res.json(gameObj);
           });
         }
@@ -71,7 +82,7 @@ export async function deletePlayerFromGame(db: firestore.Firestore, req: Request
     } else {
       let gameObj = doc.data() as Game;
       let playerDataRef = db.collection('players').doc(request.playerUUID);
-      await db.collection('players').doc(request.playerUUID).get().then((doc2) => {
+      await db.collection('players').doc(request.playerUUID).get().then(async (doc2) => {
         if (!doc2.exists) {
           res.json({ error: "no player by that uuid!" });
         } else {
@@ -79,7 +90,7 @@ export async function deletePlayerFromGame(db: firestore.Firestore, req: Request
           gameObj.currentPlayers = gameObj.currentPlayers.filter((val) => {
             return val.id != playerDataRef.id;
           });
-          gameDataRef.set(gameObj).then(() => {
+          await gameDataRef.set(gameObj).then(() => {
             res.json(gameObj);
           });
         }
