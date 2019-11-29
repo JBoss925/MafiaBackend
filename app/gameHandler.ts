@@ -2,7 +2,6 @@
 
 import { Request, Response } from "express-serve-static-core";
 import { firestore } from "firebase";
-import * as commonOps from "./util/commonOps";
 import { v4 as uuid } from 'uuid';
 import { CreatePlayerRequest, GetPlayerRequest, DeletePlayerRequest, GetGameRequest, DeleteGameRequest, AddPlayerToGameRequest, DeletePlayerFromGameRequest } from "./requestTypes";
 import { Player, Game } from "./types";
@@ -16,14 +15,24 @@ export async function createGame(db: firestore.Firestore, req: Request, res: Res
       uuid: uuid().slice(0, 6),
       started: false,
       round: 0,
-      currentPlayers: []
+      currentPlayers: [],
+      pendingMoves: [],
+      time: "unset",
+      currentStep: "unset",
+      numMafia: 0,
+      numInnocent: 0
     };
   } else {
     game = {
       uuid: request.uuid,
       started: false,
       round: 0,
-      currentPlayers: []
+      currentPlayers: [],
+      pendingMoves: [],
+      time: "unset",
+      currentStep: "unset",
+      numMafia: 0,
+      numInnocent: 0
     };
   }
   return db.collection('games').doc(game.uuid).set(game).then(() => {
@@ -46,7 +55,7 @@ export async function deleteGame(db: firestore.Firestore, req: Request, res: Res
   let request = req.body as DeleteGameRequest;
   return db.collection('games').doc(request.uuid).delete().then(() => {
     res.json({ deleted: true });
-  })
+  });
 }
 
 export async function addPlayerToGame(db: firestore.Firestore, req: Request, res: Response) {

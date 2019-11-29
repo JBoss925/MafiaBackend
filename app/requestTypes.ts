@@ -37,3 +37,28 @@ export type DeletePlayerFromGameRequest = {
   gameUUID: string;
   playerUUID: string;
 }
+
+export type StartGameRequest = {
+  uuid: string;
+}
+
+export type StepGameRequest = {
+  uuid: string;
+}
+
+// Move types
+
+/**
+ * type can be:
+ * 
+ * - "mafiaKill"
+ * - "detectiveChoose"
+ * - "doctorChoose"
+ * - "accusation"
+ * - "vote"
+ */
+export type SubmitMoveRequest = {
+  uuid: string;
+  type: string;
+  selectedUUID: string;
+}

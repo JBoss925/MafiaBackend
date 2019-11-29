@@ -16,13 +16,23 @@ export async function createPlayer(db: firestore.Firestore, req: Request, res: R
     userObj = {
       uuid: uuid(),
       name: request.name,
-      role: "unset"
+      role: "unset",
+      isProtected: false,
+      isTargeted: false,
+      isSuspected: false,
+      isAccused: false,
+      numVotesAgainst: 0
     };
   } else {
     userObj = {
       uuid: request.uuid,
       name: request.name,
-      role: "unset"
+      role: "unset",
+      isProtected: false,
+      isTargeted: false,
+      isSuspected: false,
+      isAccused: false,
+      numVotesAgainst: 0
     };
   }
   return db.collection('players').doc(userObj.uuid).set(userObj).then(() => {

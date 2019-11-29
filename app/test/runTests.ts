@@ -39,7 +39,7 @@ let testsOver = false;
 let currentlyRunningTest: Function;
 
 // Constants -------------------------------------------------------------------
-let pageWidth = 150;
+let pageWidth = 100;
 let firstLine = true;
 let lastLine = false;
 
@@ -110,10 +110,10 @@ export function triggerReturn(exp: testExtensions.Expectation) {
     expStr = (exp.expectVal.toString().length > maxValPrintLen ? exp.expectVal.toString().slice(0, 15) + "..." : exp.expectVal.toString());
   }
   let actStr = (!isUndefined(exp.actualVal) ? " " + (exp.actualVal.toString().length > maxValPrintLen ? exp.actualVal.toString().slice(0, 15) + "..." : exp.actualVal.toString()) : "")
-  restrainedLog("| -- Expect " + expStr + " " + exp.operator.constructor.name + " " + exp.functionName + actStr + " " + (exp.passed ? chalk.magenta("passed!") : chalk.red("failed!")));
-  restrainedLog("| ---- " + chalk.yellow("Status") + ": " + (exp.passed ? chalk.green("PASSED") : chalk.red("FAILED")));
+  restrainedLog("| ┌- Expect " + expStr + " " + exp.operator.constructor.name + " " + exp.functionName + actStr + " " + (exp.passed ? chalk.magenta("passed!") : chalk.red("failed!")));
+  restrainedLog("| " + (exp.passed ? "└" : "├") + "--- " + chalk.yellow("Status") + ": " + (exp.passed ? chalk.green("PASSED") : chalk.red("FAILED")));
   if (!exp.passed) {
-    restrainedLog("| -------- " + chalk.red("FAILED") + ": Expected " + exp.expectVal + " " + exp.operator.constructor.name + " " + exp.functionName + " " + exp.actualVal + "!");
+    restrainedLog("| └------- " + chalk.red("FAILED") + ": Expected " + expStr + " " + exp.operator.constructor.name + " " + exp.functionName + actStr + "!");
     failedTests.push(currentlyRunningTest);
   } else {
     passedTests.push(currentlyRunningTest);
