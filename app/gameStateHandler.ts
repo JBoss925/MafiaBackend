@@ -17,6 +17,7 @@ export async function startGame(db: firestore.Firestore, req: Request, res: Resp
       newGameData.started = true;
       newGameData.time = "night";
       newGameData.currentStep = "mafiaAwake";
+      newGameData.round = 1;
       let numMafia = 0;
       for (let i = 0; i < newGameData.currentPlayers.length; i++) {
         let playerDocRef = newGameData.currentPlayers[i];
@@ -27,10 +28,10 @@ export async function startGame(db: firestore.Firestore, req: Request, res: Resp
         if (i == 0) {
           playerData.role = "detective";
         }
-        if (i == 1) {
+        else if (i == 1) {
           playerData.role = "doctor";
         }
-        if (i % 2 == 0 && numMafia < 3) {
+        else if (i % 2 == 0 && numMafia < 2) {
           playerData.role = "mafia";
           newGameData.numMafia++;
           numMafia++;

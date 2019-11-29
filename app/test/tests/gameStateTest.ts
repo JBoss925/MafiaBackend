@@ -67,4 +67,7 @@ export async function runStartGameTest(db: firestore.Firestore) {
   expect(gameData.time).toBe.equalTo("night");
   expect(gameData.currentStep).toBe.equalTo("mafiaAwake");
   expect(gameData.started).toBe.equalTo(true);
+  expect(gameData.numMafia).toBe.equalTo(2);
+  expect(gameData.numInnocent).toBe.equalTo(3);
+  expect(gameData.round).toBe.equalTo(1);
 }
