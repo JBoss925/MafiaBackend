@@ -17,7 +17,7 @@ Run <code>npm start</code>
 
 ## How to test
 
-This project uses a custom test suite. In order to add a test, simply add a .ts file to the <code>app/test/tests/</code> folder.
+This project uses my custom test suite. In order to add a test, simply add a .ts file to the <code>app/test/tests/</code> folder.
 
 Any functions exported from this .ts file that include the substring "test" (case-insensitive) in the function name will be registered as a test by the testing suite.
 
@@ -41,8 +41,7 @@ would evaulate to *false*
 
 These expectation statements will automatically be registered and run by the testing file and will appear in the testing output. There is no need to return anything or register anything, so long as all the expect statements pass, the test will be considered to have passed!
 
-Then in order to run the testing script, simply call:
+Then in order to run the testing script, simply run:
 
-Run <code>npm test</code>
-
+<code>npm test</code>
 
