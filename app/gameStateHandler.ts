@@ -2,10 +2,8 @@
 
 import { Request, Response } from "express-serve-static-core";
 import { firestore } from "firebase";
-import { v4 as uuid } from 'uuid';
-import { CreatePlayerRequest, GetPlayerRequest, DeletePlayerRequest, GetGameRequest, DeleteGameRequest, AddPlayerToGameRequest, DeletePlayerFromGameRequest, StartGameRequest, StepGameRequest, SubmitMoveRequest } from "./requestTypes";
+import { StartGameRequest, StepGameRequest, SubmitMoveRequest } from "./requestTypes";
 import { Player, Game } from "./types";
-import { isUndefined } from "util";
 import { toNextStep, canStep, performStepAction } from "./util/gameUtils";
 
 export async function startGame(db: firestore.Firestore, req: Request, res: Response) {
