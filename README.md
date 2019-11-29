@@ -4,7 +4,7 @@
 
 First, clone the repository.
 
-Create a folder in the root of the project called <code>secrets</code>
+Create a folder in the root of the project (same level as the <code>app</code> folder) called <code>secrets</code>
 
 Get the firebase private key credential json file from me, and place that file the <code>secrets</code> directory.
 
