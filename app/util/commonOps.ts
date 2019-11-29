@@ -39,9 +39,6 @@ export async function materialize(object: any, maxDepth?: number, depth?: number
   if (!isUndefined(depth) && !isUndefined(maxDepth)) {
     depthVal = depth;
     maxDepthVal = maxDepth;
-    if (maxDepth >= depth) {
-      return object;
-    }
   } else if (isUndefined(depth) && !isUndefined(maxDepth)) {
     depthVal = 0;
     maxDepthVal = maxDepth;
@@ -51,6 +48,10 @@ export async function materialize(object: any, maxDepth?: number, depth?: number
   } else {
     depthVal = 0;
     maxDepthVal = maxDepthDefault;
+  }
+
+  if (maxDepthVal >= depthVal) {
+    return object;
   }
 
   let objectStruct: any = Object.assign({}, object);
